@@ -4,12 +4,12 @@ IS_YOLO_DATASET=$1
 DATASET_NAME=$2
 INPUT_DIR=$3
 
-bash download_data.sh 
+#bash download_data.sh 
 OUTPUT_DIR=data/$DATASET_NAME
 TMP_DIR=data/tmp
 if [ $IS_YOLO_DATASET -eq 1 ]; then
     $echo "Training YOLOv5 on $DATASET_NAME"
-    python3 yolo/segment/train.py --workers 8 --device 0 --batch 4 --data $OUTPUT_DIR/data.yaml --project $OUTPUT_DIR --weights pre-trained_ckpt/yolov9-c-converted.pt --cfg yolo/models/segment/gelan-c-seg.yaml --epochs 5 --hyp yolo/data/hyps/hyp.scratch-high.yaml
+    python3 yolo/segment/train.py --workers 8 --device 0 --batch 4 --data $OUTPUT_DIR/data.yaml --project $OUTPUT_DIR --weights pre-trained_ckpt/yolov9-c-converted.pt --cfg yolo/models/segment/gelan-c-seg.yaml --epochs 150 --hyp yolo/data/hyps/hyp.scratch-high.yaml --evolve
 
     $echo "Evaluating YOLOv5 on $DATASET_NAME"
     python3 yolo/segment/predit.py --weights $OUTPUT_DIR/exp/weights/best.pt --source $OUTPUT_DIR/test/images --project $OUTPUT_DIR --device 0 --hide-labels
@@ -26,7 +26,7 @@ else
     python3 coco_to_yolo.py --input_dir $TMP_DIR --output_dir $OUTPUT_DIR
 
     $echo "Training YOLOv5 on $DATASET_NAME"
-    python3 yolo/segment/train.py --workers 8 --device 0 --batch 4 --data $OUTPUT_DIR/data.yaml --project $OUTPUT_DIR --weights pre-trained_ckpt/yolov9-c-converted.pt --cfg yolo/models/segment/gelan-c-seg.yaml --epochs 5 --hyp yolo/data/hyps/hyp.scratch-high.yaml
+    python3 yolo/segment/train.py --workers 8 --device 0 --batch 4 --data $OUTPUT_DIR/data.yaml --project $OUTPUT_DIR --weights pre-trained_ckpt/yolov9-c-converted.pt --cfg yolo/models/segment/gelan-c-seg.yaml --epochs 150 --hyp yolo/data/hyps/hyp.scratch-high.yaml --evolve
 
     $echo "Evaluating YOLOv5 on $DATASET_NAME"
     python3 yolo/segment/predict.py --weights $OUTPUT_DIR/exp/weights/best.pt --source $OUTPUT_DIR/test/images --project $OUTPUT_DIR --device 0 --hide-labels
