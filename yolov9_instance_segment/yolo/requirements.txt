@@ -45,3 +45,12 @@ seaborn>=0.11.0
 # mss
 albumentations>=1.0.3
 pycocotools>=2.0
+
+
+numpy
+opencv-python>=4.1.2
+pandas
+Pillow
+pyYAML
+requests
+tqdm
