@@ -1,3 +1,4 @@
+#!/bin/bash
 
 $echo "Downloading DeepFashion dataset"
 cd data
